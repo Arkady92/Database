@@ -10,7 +10,6 @@ typedef struct {
 	char* First_name;
 	char* Last_name;
 } Student;
-
 //Globals
 char data_file[MAX_SIZE] = "data.dat";
 int students_max_count = 100;
@@ -140,4 +139,3 @@ void display_students(){
 }
 
 // testing line for github
-// cos
