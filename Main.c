@@ -32,7 +32,7 @@ int main()
 	char command_sign;
 	int arguments = 0;
 	int running = 1;
-	int space_pos = 0;
+	int result = -1;
 	for(i = 0; i<10; i++)
 		for(j = 0; j<100; j++)
 			parameters[i][j] = NULL;
@@ -41,7 +41,7 @@ int main()
 		for(;;) 
 		{
 			command_sign = fgetc(stdin);
-			if(command_sign == EOF)
+			if(command_sign == EOF || command_sign == '\n')
 				break;
 			if(command_sign == ' ')
 			{
@@ -53,10 +53,22 @@ int main()
 				continue;
 			parameters[arguments][counter++] = command_sign;
 		}
+		result = try_parse(parameters[0]);
+		switch(result)
+		{
+		case 0:
+			running = 0;
+			break;
+		}
 	}
 
 	system("pause");
 	return 0;
+}
+int try_parse(char * command)
+{
+	if(strcmp(command,"koniec") == 0)
+		return 0;
 }
 /*void add_student(int index, char* First_name, char* Last_name)
 {
