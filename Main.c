@@ -44,8 +44,12 @@ int main()
 		for(;;) 
 		{
 			command_sign = fgetc(stdin);
-			if(command_sign == EOF || command_sign == '\n')
+			if(command_sign == '\n')
 				break;
+			if(command_sign == EOF)
+			{
+				return;
+			}
 			if(command_sign == ' ')
 			{
 				arguments++;
@@ -76,7 +80,6 @@ int try_parse(char command[10][100])
 	if(strcmp(command[0],"koniec") == 0)
 		return 0;
 	return -1;
-
 }
 /*void add_student(int index, char* First_name, char* Last_name)
 {
