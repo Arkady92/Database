@@ -38,6 +38,9 @@ int main()
 			parameters[i][j] = NULL;
 	while(running)
 	{
+		counter = 0;
+		arguments = 0;
+		result = -1;
 		for(;;) 
 		{
 			command_sign = fgetc(stdin);
@@ -53,11 +56,14 @@ int main()
 				continue;
 			parameters[arguments][counter++] = command_sign;
 		}
-		result = try_parse(parameters[0]);
+		result = try_parse(parameters);
 		switch(result)
 		{
 		case 0:
 			running = 0;
+			break;
+		case -1:
+			printf("?\n");
 			break;
 		}
 	}
@@ -65,10 +71,12 @@ int main()
 	system("pause");
 	return 0;
 }
-int try_parse(char * command)
+int try_parse(char command[10][100])
 {
-	if(strcmp(command,"koniec") == 0)
+	if(strcmp(command[0],"koniec") == 0)
 		return 0;
+	return -1;
+
 }
 /*void add_student(int index, char* First_name, char* Last_name)
 {
