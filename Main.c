@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX_SIZE 100
-enum commands {DISPLAY = 1, QUIT = 0, ADD = 2};
 
 typedef struct {
 	int index;
@@ -25,46 +24,53 @@ void add_student(int,char*,char*);
 void display_students();
 
 //Main function
-int main() {
-
-	char enteredValue[999];
-	int thisCommand;
+int main() 
+{
+	char command[20];
+	int counter = 0;
+	int i,j;
+	char parameters[10][100];
+	char command_sign;
+	int command_info = 1;
+	int arguments = -1;
 	int running = 1;
-	read_students_from_file(data_file);
-	while(running) {
-		displayCommands();
-		scanf("%s", enteredValue);
-		thisCommand = atoi(enteredValue);
-		puts("\n----------------------------------------------");
-		switch(thisCommand) {
-		case DISPLAY:
-			display_students();
-			break;
-		case QUIT:
-			running = 0;
-			break;
-		case ADD:
-			scanf("%d%s%s",&index_buffer,First_name_buffer,Last_name_buffer);
-			add_student(index_buffer,First_name_buffer,Last_name_buffer);
-			break;
-		default:
-			puts("Wrong command!");
-			break;
+	int space_pos = 0;
+	for(i = 0; i<10; i++)
+		for(j = 0; j<100; j++)
+			parameters[i][j] = NULL;
+	for(i= 0; i<20; i++)
+		command[i] = NULL;
+	while(running)
+	{
+		for(;;) 
+		{
+			command_sign = fgetc(stdin);
+			if(command_sign == EOF)
+				break;
+			if(command_sign == ' ')
+			{
+				if(command_info)
+					command_info = 0;
+				arguments++;
+				counter = 0;
+				continue;
+			}
+			if(command_info)
+			{
+				command[counter++] = command_sign;
+			}
+			else
+			{
+				if(command_sign == '(' || command_sign == ')' || command_sign == '\n')
+					continue;
+				parameters[arguments][counter++] = command_sign;
+			}
 		}
 	}
 	system("pause");
 	return 0;
 }
-
-void displayCommands() {
-	puts("\n---------------------------------------------");
-	puts("Enter a command number:");
-	printf("%d - DISPLAY STUDENTS.\n", DISPLAY);
-	printf("%d - ADD STUDENT.\n", ADD);
-	printf("%d - QUIT.\n", QUIT);
-	puts("----------------------------------------------");
-}
-void add_student(int index, char* First_name, char* Last_name)
+/*void add_student(int index, char* First_name, char* Last_name)
 {
 	int i = 0;
 	FILE *fp = NULL;
@@ -136,6 +142,6 @@ void display_students(){
 	int i=0;
 	for(i=0; i<students_act_count; i++)
 		printf("%d %s %s\n",students[i]->index,students[i]->First_name, students[i]->Last_name);
-}
+}*/
 
 // testing line for github
